@@ -1,35 +1,69 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import { fetchWeatherByCity, fetchWeatherByLocation, getUserLocation } from "../../utils/common";
+import { useEffect, useState } from "react";
+import Loader from "../atoms/Loader";
+import Weather from "../molecules/Weather";
+import Search from '../molecules/Search';
+import Header from "../molecules/Header";
+ 
 function App() {
-  const [count, setCount] = useState(0)
+  const [weatherData, setWeatherData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  async function getWeatherByUserLocation() {
+    try {
+      const { latitude, longitude } = await getUserLocation();
+      console.log("Координаты пользователя:", { latitude, longitude });
+
+      // Запрос данных о погоде
+      const data = await fetchWeatherByLocation(latitude, longitude);
+      setWeatherData(data);
+      console.log("Данные о погоде:", data);
+    } catch (err) {
+      console.error("Ошибка:", err.message);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+  
+  useEffect(() => {
+    getWeatherByUserLocation();
+  }, []);
+
+  // Функция для поиска города
+  async function getWeatherByCitySearch(city) {
+    setLoading(true);
+    setError(null); 
+    try {
+      const data = await fetchWeatherByCity(city);
+      setWeatherData(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // useEffect(() => {
+  //   // Имитация задержки для загрузки данных
+  //   setTimeout(() => setLoading(false), 3000);
+  // }, []);
+  
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="font-serif">
+      <Header />
+      <Search onSearch={getWeatherByCitySearch} />
+      {loading ? 
+        <Loader /> 
+        : 
+        error ? 
+        <p>{error}</p> 
+        : 
+        <Weather weatherData={weatherData} />
+      }
+    </div>
+  );
 }
 
-export default App
+export default App;
