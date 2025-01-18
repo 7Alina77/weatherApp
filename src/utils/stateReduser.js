@@ -1,4 +1,4 @@
-export default function stateReducer(state, action) {
+export function stateReducer(state, action) {
   switch (action.type) {
     case "SAVE_CITY": 
     if (!state.savedCities.includes(action.payload)) {

@@ -1,11 +1,15 @@
 import { fetchWeatherByCity, fetchWeatherByLocation, getUserLocation, initialState } from "../../utils/common";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Header from "../molecules/Header";
-import stateReducer from "../../utils/stateReduser";
 import Main from "./Main";
+import { stateReducer } from "../../utils/stateReduser";
 
 function App() {
   const [state, dispatch] = useReducer(stateReducer, initialState);
+  const [selectedOptions, setSelectedOptions] = useState(() => {
+    const savedOptions = JSON.parse(localStorage.getItem("selectedOptions"));
+    return savedOptions || { sunset: false, humidity: false, feels_like: false };
+  });
 
   useEffect(() => {
     const storedCities = JSON.parse(localStorage.getItem("savedCities")) || [];
@@ -21,6 +25,10 @@ function App() {
       getWeatherByUserLocation(); 
     }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("selectedOptions", JSON.stringify(selectedOptions));
+  }, [selectedOptions]);
   
   useEffect(() => {
     localStorage.setItem("savedCities", JSON.stringify(state.savedCities));
@@ -59,18 +67,34 @@ function App() {
     dispatch({ type: "DELETE_CITY", payload: city });
   }
 
-  const handleCityClick = (city) => {
+  async function handleCityClick (city) {
     dispatch({ type: "SET_ACTIVE_CITY", payload: city });
-    getWeatherByCitySearch(city); 
+    await getWeatherByCitySearch(city);
+  };
+
+  const setActiveCity = (city) => {
+    dispatch({ type: "SET_ACTIVE_CITY", payload: city });
+  }
+
+  const handleOptionToggle = (optionKey) => {
+    setSelectedOptions((prev) => {
+      const updatedOptions = { ...prev, [optionKey]: !prev[optionKey] };
+      return updatedOptions;
+    });
   };
 
   return (
     <div className="font-serif">
       <Header />
-      <Main state={state} 
+      <Main 
+        state={state} 
         onSearch={getWeatherByCitySearch}
         removeCity={removeCity}
         onCityClick={handleCityClick}
+        setActiveCity={setActiveCity}
+        onGeoSearch={getWeatherByUserLocation}
+        onToggleOption={handleOptionToggle}
+        selectedOptions={selectedOptions}
       />
     </div>
   );

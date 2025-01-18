@@ -1,18 +1,20 @@
-import { useState } from "react";
-import PropTypes from 'prop-types'; // Импорт PropTypes
+import PropTypes from 'prop-types';
+import { useState } from 'react';
 
-function Search({ onSearch }) {
-  const [city, setCity] = useState('');
+function Search({ onSearch, setActiveCity, onGeoSearch }) {
+  const [inputValue, setInputValue] = useState('');
 
   const handleInputChange = (e) => {
-    setCity(e.target.value);
+    setInputValue(e.target.value); 
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (city) {
-      await onSearch(city); // Ждем, пока запрос будет выполнен
-      setCity(''); 
+    const trimmedValue = inputValue?.trim();
+    if (trimmedValue) {
+      await onSearch(trimmedValue);
+      setActiveCity(trimmedValue); 
+      setInputValue(''); 
     }
   };
 
@@ -20,20 +22,37 @@ function Search({ onSearch }) {
     <form onSubmit={handleSubmit} className="bg-gray-100 flex justify-center space-x-4 pb-6">
       <input
         type="text"
-        value={city}
+        value={inputValue}
         onChange={handleInputChange}
         className="px-4 py-2 border rounded-md"
         placeholder="Введите город"
       />
-      <button type="submit" className="bg-blue-500 text-white px-6 py-2 rounded-md">
+      <button 
+        type="submit"
+        className="bg-blue-500 text-white px-6 py-2 rounded-md"
+        disabled={!inputValue?.trim()}
+      >
         Найти
+      </button>
+      <button
+        type="button"
+        onClick={onGeoSearch} 
+        className="flex items-center justify-center bg-green-500 rounded-md p-2"
+      >
+        <img
+          src="../../../images/geo.svg" 
+          alt="Поиск по геолокации"
+          className="w-6 h-6"
+        />
       </button>
     </form>
   );
 }
 
 Search.propTypes = {
-  onSearch: PropTypes.func.isRequired, // Проверка, что onSearch — функция
+  onSearch: PropTypes.func.isRequired, 
+  setActiveCity: PropTypes.func.isRequired, 
+  onGeoSearch: PropTypes.func.isRequired,
 };
 
 
