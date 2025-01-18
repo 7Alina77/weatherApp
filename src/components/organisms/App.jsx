@@ -1,67 +1,77 @@
-import { fetchWeatherByCity, fetchWeatherByLocation, getUserLocation } from "../../utils/common";
-import { useEffect, useState } from "react";
-import Loader from "../atoms/Loader";
-import Weather from "../molecules/Weather";
-import Search from '../molecules/Search';
+import { fetchWeatherByCity, fetchWeatherByLocation, getUserLocation, initialState } from "../../utils/common";
+import { useEffect, useReducer } from "react";
 import Header from "../molecules/Header";
- 
+import stateReducer from "../../utils/stateReduser";
+import Main from "./Main";
+
 function App() {
-  const [weatherData, setWeatherData] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [state, dispatch] = useReducer(stateReducer, initialState);
 
-  async function getWeatherByUserLocation() {
-    try {
-      const { latitude, longitude } = await getUserLocation();
-      console.log("Координаты пользователя:", { latitude, longitude });
+  useEffect(() => {
+    const storedCities = JSON.parse(localStorage.getItem("savedCities")) || [];
+    storedCities.forEach(city => {
+      dispatch({ type: "SAVE_CITY", payload: city });
+    });
 
-      // Запрос данных о погоде
-      const data = await fetchWeatherByLocation(latitude, longitude);
-      setWeatherData(data);
-      console.log("Данные о погоде:", data);
-    } catch (err) {
-      console.error("Ошибка:", err.message);
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    const storedCity = localStorage.getItem("currentCity");
+    if (storedCity) {
+      dispatch({ type: "SET_ACTIVE_CITY", payload: storedCity });
+      getWeatherByCitySearch(storedCity);
+    } else {
+      getWeatherByUserLocation(); 
     }
-  }
+  }, []);
   
   useEffect(() => {
-    getWeatherByUserLocation();
-  }, []);
+    localStorage.setItem("savedCities", JSON.stringify(state.savedCities));
+  }, [state.savedCities]);
 
-  // Функция для поиска города
-  async function getWeatherByCitySearch(city) {
-    setLoading(true);
-    setError(null); 
+  async function getWeatherByUserLocation() {
+    dispatch({ type: "LOADING" });
     try {
-      const data = await fetchWeatherByCity(city);
-      setWeatherData(data);
+      const { latitude, longitude } = await getUserLocation();
+      const data = await fetchWeatherByLocation(latitude, longitude);
+      dispatch({ type: "SET_WEATHER", payload: data });
+      dispatch({ type: "SAVE_CITY", payload: data.name });
+      dispatch({ type: "SET_ACTIVE_CITY", payload: data.name });
     } catch (err) {
-      setError(err.message);
+      dispatch({ type: "SET_ERROR", payload: err.message });
     } finally {
-      setLoading(false);
+      dispatch({ type: "LOADING_COMPLETE" }); 
     }
   }
 
-  // useEffect(() => {
-  //   // Имитация задержки для загрузки данных
-  //   setTimeout(() => setLoading(false), 3000);
-  // }, []);
-  
+  async function getWeatherByCitySearch(city) {
+    dispatch({ type: "LOADING" });
+    try {
+      const data = await fetchWeatherByCity(city);
+      dispatch({ type: "SET_WEATHER", payload: data });
+      dispatch({ type: "SAVE_CITY", payload: data.name });
+      dispatch({ type: "SET_ACTIVE_CITY", payload: data.name });
+    } catch (err) {
+      dispatch({ type: "SET_ERROR", payload: err.message });
+    } finally {
+      dispatch({ type: "LOADING_COMPLETE" }); 
+    }
+  }
+
+  const removeCity = (city) => {
+    dispatch({ type: "DELETE_CITY", payload: city });
+  }
+
+  const handleCityClick = (city) => {
+    dispatch({ type: "SET_ACTIVE_CITY", payload: city });
+    getWeatherByCitySearch(city); 
+  };
+
   return (
     <div className="font-serif">
       <Header />
-      <Search onSearch={getWeatherByCitySearch} />
-      {loading ? 
-        <Loader /> 
-        : 
-        error ? 
-        <p>{error}</p> 
-        : 
-        <Weather weatherData={weatherData} />
-      }
+      <Main state={state} 
+        onSearch={getWeatherByCitySearch}
+        removeCity={removeCity}
+        onCityClick={handleCityClick}
+      />
     </div>
   );
 }

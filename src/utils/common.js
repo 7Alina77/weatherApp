@@ -1,5 +1,13 @@
 export const apiKey = import.meta.env.VITE_MY_KEY;
 
+export const initialState = {
+  weatherData: null,
+  savedCities: [],
+  error: null,
+  loading: false,
+  activeCity: null,
+};
+
 export function getUserLocation() {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
