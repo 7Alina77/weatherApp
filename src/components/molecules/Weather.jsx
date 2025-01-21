@@ -1,16 +1,17 @@
 import PropTypes from 'prop-types';
 
 function Weather({ weatherData, selectedOptions }) {
+
   const getSelectedData = () => {
     const selectedData = {};
     
-    if (selectedOptions.sunset && weatherData.sys.sunset) {
+    if (selectedOptions?.sunset && weatherData?.sys?.sunset) {
       selectedData.sunset = weatherData.sys.sunset;
     }
-    if (selectedOptions.humidity && weatherData.main.humidity) {
+    if (selectedOptions?.humidity && weatherData.main?.humidity) {
       selectedData.humidity = weatherData.main.humidity;
     }
-    if (selectedOptions.feels_like && weatherData.main.feels_like) {
+    if (selectedOptions?.feels_like && weatherData.main?.feels_like) {
       selectedData.feels_like = weatherData.main.feels_like;
     }
     
@@ -19,9 +20,9 @@ function Weather({ weatherData, selectedOptions }) {
 
   const selectedData = getSelectedData();
 
-  const weatherIcon = weatherData.weather[0].icon;
-  const iconUrl = `http://openweathermap.org/img/wn/${weatherIcon}@2x.png`;
-
+  const weatherIcon = weatherData?.weather?.[0]?.icon;
+  const iconUrl = weatherIcon ? `http://openweathermap.org/img/wn/${weatherIcon}@2x.png` : '';
+  
   if (!weatherData) {
     return <p className='text-center font-serif text-xl'>Нет данных о погоде.</p>;
   }
@@ -45,7 +46,7 @@ Weather.propTypes = {
       temp: PropTypes.number.isRequired,
       humidity: PropTypes.number,
       feels_like: PropTypes.number,
-    }).isRequired,
+    }),
     weather: PropTypes.arrayOf(
       PropTypes.shape({
         icon: PropTypes.string.isRequired,
@@ -56,8 +57,8 @@ Weather.propTypes = {
     sys: PropTypes.shape({
       sunset: PropTypes.number.isRequired,
     }).isRequired,
-  }).isRequired,
-  selectedOptions: PropTypes.object.isRequired,
+  }),
+  selectedOptions: PropTypes.object,
 };
 
 export default Weather;

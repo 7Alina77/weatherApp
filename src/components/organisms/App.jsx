@@ -3,9 +3,13 @@ import { useEffect, useReducer, useState } from "react";
 import Header from "../molecules/Header";
 import Main from "./Main";
 import { stateReducer } from "../../utils/stateReduser";
+import { Route, Routes } from "react-router-dom";
+import NotFound from "./NotFound";
+import SavedCitiesPage from "./SavedCitiesPage";
 
 function App() {
   const [state, dispatch] = useReducer(stateReducer, initialState);
+  const [filteredCities, setFilteredCities] = useState(state.savedCities);
   const [selectedOptions, setSelectedOptions] = useState(() => {
     const savedOptions = JSON.parse(localStorage.getItem("selectedOptions"));
     return savedOptions || { sunset: false, humidity: false, feels_like: false };
@@ -32,7 +36,9 @@ function App() {
   
   useEffect(() => {
     localStorage.setItem("savedCities", JSON.stringify(state.savedCities));
+    setFilteredCities(state.savedCities);
   }, [state.savedCities]);
+
 
   async function getWeatherByUserLocation() {
     dispatch({ type: "LOADING" });
@@ -83,19 +89,43 @@ function App() {
     });
   };
 
+  const handleFilterSavedCities = (inputSearch) => {
+    const filtered = state.savedCities.filter((city) =>
+      city.toLowerCase().includes(inputSearch.toLowerCase())
+    );
+    setFilteredCities(filtered);
+  }
+
   return (
     <div className="font-serif">
       <Header />
-      <Main 
-        state={state} 
-        onSearch={getWeatherByCitySearch}
-        removeCity={removeCity}
-        onCityClick={handleCityClick}
-        setActiveCity={setActiveCity}
-        onGeoSearch={getWeatherByUserLocation}
-        onToggleOption={handleOptionToggle}
-        selectedOptions={selectedOptions}
-      />
+      <Routes>
+        <Route path="/" 
+          element={
+          <Main 
+            state={state} 
+            onSearch={getWeatherByCitySearch}
+            removeCity={removeCity}
+            onCityClick={handleCityClick}
+            setActiveCity={setActiveCity}
+            onGeoSearch={getWeatherByUserLocation}
+            onToggleOption={handleOptionToggle}
+            selectedOptions={selectedOptions}
+          />} />
+          <Route path="/saved" element={
+            <SavedCitiesPage 
+              state={state} 
+              onSearch={handleFilterSavedCities}
+              removeCity={removeCity}
+              onCityClick={handleCityClick}
+              setActiveCity={setActiveCity}
+              onGeoSearch={getWeatherByUserLocation}
+              filteredCities = {filteredCities}
+            />} 
+          />
+          {/* <Route path="/settings" element={<Settings />} /> */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </div>
   );
 }

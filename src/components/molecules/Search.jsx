@@ -1,11 +1,17 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 function Search({ onSearch, setActiveCity, onGeoSearch }) {
+  const location = useLocation();
   const [inputValue, setInputValue] = useState('');
 
+
   const handleInputChange = (e) => {
-    setInputValue(e.target.value); 
+    setInputValue(e.target.value);
+    if(location.pathname === '/saved') {
+      onSearch(e.target.value);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -18,6 +24,16 @@ function Search({ onSearch, setActiveCity, onGeoSearch }) {
     }
   };
 
+  const getPlaceholderText = () => {
+    if (location.pathname === '/') {
+      return 'Введите город';
+    }
+    if (location.pathname === '/saved') {
+      return 'Поиск по сохраненным';
+    }
+    return 'Введите значение';
+  };
+
   return (
     <form onSubmit={handleSubmit} className="bg-gray-100 flex justify-center space-x-4 pb-6">
       <input
@@ -25,11 +41,13 @@ function Search({ onSearch, setActiveCity, onGeoSearch }) {
         value={inputValue}
         onChange={handleInputChange}
         className="px-4 py-2 border rounded-md"
-        placeholder="Введите город"
+        placeholder={getPlaceholderText()}
       />
-      <button 
+      {location.pathname === '/' &&
+      (<>
+        <button 
         type="submit"
-        className="bg-blue-500 text-white px-6 py-2 rounded-md"
+        className="bg-blue-500 text-white px-6 py-2 rounded-md disabled:bg-gray-400 disabled:cursor-not-allowed"
         disabled={!inputValue?.trim()}
       >
         Найти
@@ -45,6 +63,9 @@ function Search({ onSearch, setActiveCity, onGeoSearch }) {
           className="w-6 h-6"
         />
       </button>
+      </>
+      )
+      }
     </form>
   );
 }
@@ -52,7 +73,7 @@ function Search({ onSearch, setActiveCity, onGeoSearch }) {
 Search.propTypes = {
   onSearch: PropTypes.func.isRequired, 
   setActiveCity: PropTypes.func.isRequired, 
-  onGeoSearch: PropTypes.func.isRequired,
+  onGeoSearch: PropTypes.func,
 };
 
 

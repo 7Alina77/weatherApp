@@ -18,22 +18,22 @@ function Navigation() {
         </li>
         <li>
           <Link 
-            to="/5days" 
+            to="/saved" 
             className={`${
-              location.pathname === '/5days' ? 'text-blue-500 transform scale-105' : 'text-gray-500'
+              location.pathname === '/saved' ? 'text-blue-500 transform scale-105' : 'text-gray-500'
             } transition-all duration-300`}
           >
-            5 дней
+            Сохраненные города
           </Link>
         </li>
         <li>
           <Link 
-            to="/3hours" 
+            to="/settings" 
             className={`${
-              location.pathname === '/3hours' ? 'text-blue-500 transform scale-105' : 'text-gray-500'
+              location.pathname === '/settings' ? 'text-blue-500 transform scale-105' : 'text-gray-500'
             } transition-all duration-300`}
           >
-            3 часа
+            Расширенный прогноз
           </Link>
         </li>
       </ul>
