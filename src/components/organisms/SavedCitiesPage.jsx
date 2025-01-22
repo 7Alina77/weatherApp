@@ -17,7 +17,7 @@ function SavedCitiesPage({state, onSearch, removeCity, onCityClick, setActiveCit
       ) : 
       state.savedCities ? (
         filteredCities.length > 0 ? (
-          <div className='flex align-baseline justify-evenly items-baseline max-w-screen-lg mx-auto'>
+          <div className='flex flex-col items-center md:flex-row md:items-baseline align-baseline justify-evenly max-w-screen-lg mx-auto'>
             <SavedCities cities={filteredCities} onRemove={removeCity} onCityClick={onCityClick} activeCity={state.activeCity}/>
             <Weather weatherData={state.weatherData}/>
           </div>

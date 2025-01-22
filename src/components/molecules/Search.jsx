@@ -35,19 +35,19 @@ function Search({ onSearch, setActiveCity, onGeoSearch }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-gray-100 flex justify-center space-x-4 pb-6">
+    <form onSubmit={handleSubmit} className="bg-gray-100 flex justify-center space-x-2 md:space-x-4 pb-6">
       <input
         type="text"
         value={inputValue}
         onChange={handleInputChange}
-        className="px-4 py-2 border rounded-md"
+        className="px-2 md:px-4 py-2 border rounded-md"
         placeholder={getPlaceholderText()}
       />
       {location.pathname === '/' &&
       (<>
         <button 
         type="submit"
-        className="bg-blue-500 text-white px-6 py-2 rounded-md disabled:bg-gray-400 disabled:cursor-not-allowed"
+        className="bg-blue-500 text-white px-3 md:px-6 py-2 rounded-md disabled:bg-gray-400 disabled:cursor-not-allowed"
         disabled={!inputValue?.trim()}
       >
         Найти
@@ -55,7 +55,7 @@ function Search({ onSearch, setActiveCity, onGeoSearch }) {
       <button
         type="button"
         onClick={onGeoSearch} 
-        className="flex items-center justify-center bg-green-500 rounded-md p-2"
+        className="flex items-center justify-center bg-green-500 rounded-md p-1 md:p-2"
       >
         <img
           src="/weatherApp/images/geo.svg" 

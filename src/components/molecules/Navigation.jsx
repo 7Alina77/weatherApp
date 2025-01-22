@@ -4,8 +4,8 @@ function Navigation() {
   const location = useLocation();
 
   return (
-    <nav className="text-base p-6">
-      <ul className="flex flex-row space-x-6 justify-center items-center mx-auto w-1/3">
+    <nav className="text-s md:text-base p-6">
+      <ul className="flex flex-row space-x-3 md:space-x-6 justify-center items-center mx-auto w-1/3">
         <li>
           <Link 
             to="/" 

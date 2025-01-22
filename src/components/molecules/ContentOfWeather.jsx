@@ -11,14 +11,14 @@ function ContentOfWeather({ state, removeCity, onCityClick, onToggleOption, sele
     <>
     {location.pathname === '/' ? (
       <>
-        <div className='flex justify-between items-baseline max-w-screen-lg mx-auto'>
+        <div className='p-3 flex flex-col items-center md:flex-row md:items-baseline justify-between max-w-screen-lg mx-auto'>
           <SavedCities cities={state.savedCities} onRemove={removeCity} onCityClick={onCityClick} activeCity={state.activeCity}/>
           <Weather weatherData={state.weatherData} selectedOptions={selectedOptions}/>
           <WeatherOptions onToggleOption={onToggleOption} selectedOptions={selectedOptions} />
         </div>
       </>
     ) : (
-        <div className='flex align-baseline justify-evenly items-baseline max-w-screen-lg mx-auto'>
+        <div className='p-3 flex flex-col items-center md:flex-row md:items-baseline align-baseline justify-evenly max-w-screen-lg mx-auto'>
           <Weather weatherData={state.weatherData} selectedOptions={selectedOptions}/>
           <WeatherOptions onToggleOption={onToggleOption} selectedOptions={selectedOptions} />
         </div>
