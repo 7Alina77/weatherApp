@@ -6,6 +6,7 @@ import { stateReducer } from "../../utils/stateReduser";
 import { Route, Routes } from "react-router-dom";
 import NotFound from "./NotFound";
 import SavedCitiesPage from "./SavedCitiesPage";
+import SettingsPage from "./SettingsPage";
 
 function App() {
   const [state, dispatch] = useReducer(stateReducer, initialState);
@@ -123,7 +124,14 @@ function App() {
               filteredCities = {filteredCities}
             />} 
           />
-          {/* <Route path="/settings" element={<Settings />} /> */}
+        <Route path="/settings" element={<SettingsPage
+          state={state} 
+          removeCity={removeCity}
+          onCityClick={handleCityClick}
+          setActiveCity={setActiveCity}
+          onToggleOption={handleOptionToggle}
+          selectedOptions={selectedOptions}
+        />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
