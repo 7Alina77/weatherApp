@@ -1,5 +1,7 @@
 # WeatherApp
 
+Развернутое приложение по адресу: https://7alina77.github.io/weatherApp/
+
 ## Сборка
 
 npm run build - для сборки
