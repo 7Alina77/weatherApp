@@ -14,7 +14,7 @@ function SavedCities({ cities, onRemove, onCityClick, activeCity }) {
               onClick={() => onCityClick(city)} 
             >{city}</span>
             <button onClick={() => onRemove(city)} className="p-0 bg-transparent border-0">
-              <img src='../../images/delete.png' alt="Удалить" className="w-6 h-6" />
+              <img src='/images/delete.png' alt="Удалить" className="w-6 h-6" />
             </button>
           </li>
         ))}

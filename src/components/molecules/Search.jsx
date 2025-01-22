@@ -58,7 +58,7 @@ function Search({ onSearch, setActiveCity, onGeoSearch }) {
         className="flex items-center justify-center bg-green-500 rounded-md p-2"
       >
         <img
-          src="../../../images/geo.svg" 
+          src="../images/geo.svg" 
           alt="Поиск по геолокации"
           className="w-6 h-6"
         />
