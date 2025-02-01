@@ -28,8 +28,8 @@ function Weather({ weatherData, selectedOptions }) {
   }
 
   return (
-    <div className='mt-4 font-serif flex flex-col justify-center items-center space-y-2'>
-      <h1 className='text-xl'>Погода в вашем регионе: {weatherData.name}</h1>
+    <div className='order-1 md:order-2 mt-4 mx-2 font-serif flex flex-col justify-center items-center space-y-2'>
+      <h1 className='text-xl'>Погода в регионе: {weatherData.name}</h1>
       <p>Температура: {weatherData.main.temp}°C</p>
       <p>Описание: {weatherData.weather[0].description}</p>
       <img src={iconUrl} alt={weatherData.weather[0].description} className="w-20 h-20" />

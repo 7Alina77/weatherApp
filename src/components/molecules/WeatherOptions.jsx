@@ -4,11 +4,11 @@ function WeatherOptions({ onToggleOption, selectedOptions={} }) {
   const options = [
     { label: "Время заката", key: "sunset" },
     { label: "Влажность", key: "humidity" },
-    { label: "Температура, которая ощущается", key: "feels_like" },
+    { label: "Ощущается как", key: "feels_like" },
   ];
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 order-2 md:order-3 mx-2">
       <h3 className="text-xl mt-4">Увидеть еще данные</h3>
       <ul className="space-y-2">
         {options.map((option) => (

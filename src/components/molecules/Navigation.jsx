@@ -11,7 +11,7 @@ function Navigation() {
             to="/" 
             className={`${
               location.pathname === '/' ? 'text-blue-500 transform scale-105' : 'text-gray-500'
-            } transition-all duration-300`}
+            } transition-all duration-300 hover:scale-110 inline-block`}
           >
             Текущая
           </Link>
@@ -21,7 +21,7 @@ function Navigation() {
             to="/saved" 
             className={`${
               location.pathname === '/saved' ? 'text-blue-500 transform scale-105' : 'text-gray-500'
-            } transition-all duration-300`}
+            } transition-all duration-300 hover:scale-110 inline-block`}
           >
             Сохраненные города
           </Link>
@@ -31,7 +31,7 @@ function Navigation() {
             to="/settings" 
             className={`${
               location.pathname === '/settings' ? 'text-blue-500 transform scale-105' : 'text-gray-500'
-            } transition-all duration-300`}
+            } transition-all duration-300 hover:scale-110 inline-block`}
           >
             Расширенный прогноз
           </Link>

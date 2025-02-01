@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 function SavedCities({ cities, onRemove, onCityClick, activeCity }) {
   
   return (
-    <div className='mt-4 font-serif text-left space-y-2'>
+    <div className='order-3 md:order-1 mt-4 mx-2 font-serif text-left space-y-2'>
       <h3 className='text-xl'>Сохранённые города:</h3>
       <ul className='flex flex-col justify-center items-start space-y-2'>
         {cities.map((city, index) => (
           <li key={index} className='flex'>
             <span
               className={`pr-2 cursor-pointer transition-all duration-300 ${
-              city === activeCity ? "text-blue-500 transform scale-105" : "text-black-500"}`}
+              city === activeCity ? "text-blue-500 transform scale-105" : "text-black-500"} hover:scale-110`}
               onClick={() => onCityClick(city)} 
             >{city}</span>
             <button onClick={() => onRemove(city)} className="p-0 bg-transparent border-0">
