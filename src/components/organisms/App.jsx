@@ -13,7 +13,7 @@ function App() {
   const [filteredCities, setFilteredCities] = useState(state.savedCities);
   const [selectedOptions, setSelectedOptions] = useState(() => {
     const savedOptions = JSON.parse(localStorage.getItem("selectedOptions"));
-    return savedOptions || { sunset: false, humidity: false, feels_like: false };
+    return savedOptions || { sunrise: false, sunset: false, humidity: false, feels_like: false, wind: false };
   });
 
   useEffect(() => {

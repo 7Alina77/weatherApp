@@ -2,9 +2,11 @@ import PropTypes from 'prop-types';
 
 function WeatherOptions({ onToggleOption, selectedOptions={} }) {
   const options = [
+    { label: "Время восхода", key: "sunrise" },
     { label: "Время заката", key: "sunset" },
     { label: "Влажность", key: "humidity" },
     { label: "Ощущается как", key: "feels_like" },
+    { label: "Скорость ветра", key: "wind" }
   ];
 
   return (
