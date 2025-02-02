@@ -5,7 +5,7 @@ import ContentOfWeather from '../molecules/ContentOfWeather';
 
 function SettingsPage({state, removeCity, onCityClick, onToggleOption, selectedOptions}) {
   return (
-    <main>
+    <main className='opacity-0 animate-fade-in'>
       {state.loading ? (
         <Loader />
       ) : 

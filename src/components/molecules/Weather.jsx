@@ -22,6 +22,7 @@ function Weather({ weatherData, selectedOptions }) {
 
   const weatherIcon = weatherData?.weather?.[0]?.icon;
   const iconUrl = weatherIcon ? `http://openweathermap.org/img/wn/${weatherIcon}@2x.png` : '';
+
   
   if (!weatherData) {
     return <p className='text-center font-serif text-xl'>Нет данных о погоде.</p>;
@@ -33,9 +34,9 @@ function Weather({ weatherData, selectedOptions }) {
       <p>Температура: {weatherData.main.temp}°C</p>
       <p>Описание: {weatherData.weather[0].description}</p>
       <img src={iconUrl} alt={weatherData.weather[0].description} className="w-20 h-20" />
-      {selectedData.sunset && <p>Время заката: {new Date(selectedData.sunset * 1000).toLocaleTimeString()}</p>}
-      {selectedData.humidity && <p>Влажность: {selectedData.humidity}%</p>}
-      {selectedData.feels_like && <p>Ощущается как: {selectedData.feels_like}°C</p>}
+      {selectedData.sunset && <p className='opacity-0 animate-fade-in '>Время заката: {new Date(selectedData.sunset * 1000).toLocaleTimeString()}</p>}
+      {selectedData.humidity && <p className='opacity-0 animate-fade-in '>Влажность: {selectedData.humidity}%</p>}
+      {selectedData.feels_like && <p className='opacity-0 animate-fade-in '>Ощущается как: {selectedData.feels_like}°C</p>}
     </div>
   )
 }

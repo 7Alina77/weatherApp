@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 function Main({state, onSearch, removeCity, onCityClick, setActiveCity, onGeoSearch, onToggleOption, selectedOptions}) {
   return (
-    <main>
+    <main className="opacity-0 animate-fade-in">
       <Search onSearch={onSearch} setActiveCity={setActiveCity} onGeoSearch={onGeoSearch}/>
       {state.loading ? (
         <Loader />

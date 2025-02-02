@@ -98,7 +98,7 @@ function App() {
   }
 
   return (
-    <div className="font-serif">
+    <div className="opacity-0 animate-fade-in font-serif">
       <Header />
       <Routes>
         <Route path="/" 

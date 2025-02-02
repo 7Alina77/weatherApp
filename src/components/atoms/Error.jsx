@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 function Error({ error }) {
   return (
-    <h2 className='font-serif text-xl text-center pt-6'>{error}</h2>
+    <h2 className='opacity-0 animate-fade-in font-serif text-xl text-center pt-6'>{error}</h2>
   )
 }
 

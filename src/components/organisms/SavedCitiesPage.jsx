@@ -7,7 +7,7 @@ import Weather from '../molecules/Weather';
 
 function SavedCitiesPage({state, onSearch, removeCity, onCityClick, setActiveCity, filteredCities}) {
   return (
-    <main>
+    <main className='opacity-0 animate-fade-in'>
       <Search onSearch={onSearch} setActiveCity={setActiveCity} savedCities={state.savedCities}/>
       {state.loading ? (
         <Loader />
@@ -17,7 +17,7 @@ function SavedCitiesPage({state, onSearch, removeCity, onCityClick, setActiveCit
       ) : 
       state.savedCities ? (
         filteredCities.length > 0 ? (
-          <div className='flex flex-col items-center md:flex-row md:items-baseline align-baseline justify-evenly max-w-screen-lg mx-auto'>
+          <div className='opacity-0 animate-fade-in flex flex-col items-center md:flex-row md:items-baseline align-baseline justify-evenly max-w-screen-lg mx-auto'>
             <SavedCities cities={filteredCities} onRemove={removeCity} onCityClick={onCityClick} activeCity={state.activeCity}/>
             <Weather weatherData={state.weatherData}/>
           </div>
