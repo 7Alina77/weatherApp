@@ -22,7 +22,7 @@ function SavedCitiesPage({state, onSearch, removeCity, onCityClick, setActiveCit
             <Weather weatherData={state.weatherData}/>
           </div>
         ) : (
-          <h3 className='mt-4 text-xl text-center'>Таких городов вы не сохраняли &#128577;</h3>
+          <h3 className='opacity-0 animate-fade-in mt-4 text-xl text-center'>Таких городов вы не сохраняли &#128577;</h3>
         )
       ) : 
         <Loader />}

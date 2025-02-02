@@ -34,7 +34,7 @@ export async function fetchWeatherByLocation(lat, lon) {
       throw new Error(`Ошибка: ${response.status}`);
     }
     const data = await response.json();
-    console.log("Данные о погоде:", data);
+    //console.log("Данные о погоде:", data);
     return data;
   } catch (error) {
     console.error("Ошибка при запросе погоды:", error);
@@ -57,3 +57,8 @@ export async function fetchWeatherByCity(city) {
   
   return weatherData;
 }
+
+export const initializeSelectedOptions = () => {
+  const savedOptions = JSON.parse(localStorage.getItem("selectedOptions"));
+  return savedOptions || { sunrise: false, sunset: false, humidity: false, feels_like: false, wind: false };
+};

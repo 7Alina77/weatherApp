@@ -1,4 +1,4 @@
-import { fetchWeatherByCity, fetchWeatherByLocation, getUserLocation, initialState } from "../../utils/common";
+import { fetchWeatherByCity, fetchWeatherByLocation, getUserLocation, initializeSelectedOptions, initialState } from "../../utils/common";
 import { useEffect, useReducer, useState } from "react";
 import Header from "../molecules/Header";
 import Main from "./Main";
@@ -11,10 +11,7 @@ import SettingsPage from "./SettingsPage";
 function App() {
   const [state, dispatch] = useReducer(stateReducer, initialState);
   const [filteredCities, setFilteredCities] = useState(state.savedCities);
-  const [selectedOptions, setSelectedOptions] = useState(() => {
-    const savedOptions = JSON.parse(localStorage.getItem("selectedOptions"));
-    return savedOptions || { sunrise: false, sunset: false, humidity: false, feels_like: false, wind: false };
-  });
+  const [selectedOptions, setSelectedOptions] = useState(initializeSelectedOptions);
 
   useEffect(() => {
     const storedCities = JSON.parse(localStorage.getItem("savedCities")) || [];
